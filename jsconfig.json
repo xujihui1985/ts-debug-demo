@@ -1,0 +1,8 @@
+{
+  "compilerOptions": {
+    "charset": "utf8",
+    "locale": "en-us",
+    "target": "ES6",
+    "module": "commonjs"
+  }
+}

@@ -1,0 +1,26 @@
+{
+    "version": "0.1.0",
+    "command": "gulp",
+    "isShellCommand": true,
+    "args": [
+        "--no-color"
+    ],
+    "tasks": [
+        {
+            "taskName": "test",
+            "args": ["test"],
+            "isTestCommand": true
+        },
+        {
+          "taskName": "build",
+          "args": ["build"],
+          "isBuildCommand": true
+        },
+        {
+          "taskName": "watch",
+          "args": ["watch"],
+          "isWatching": true,
+          "showOutput": "silent"
+        }
+    ]
+}
