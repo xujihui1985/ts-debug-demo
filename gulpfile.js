@@ -9,7 +9,7 @@ gulp.task('test', function() {
 });
 
 gulp.task('build', function() {
-  cp.execSync('tsc', {
+  cp.execSync('tsc -p tsconfig.sourcemap.json', {
     cwd: __dirname
   });
 });

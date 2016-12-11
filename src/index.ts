@@ -1,51 +1,61 @@
-'use strict';
-
-import * as _ from 'lodash';
-import * as commander from 'commander';
-import * as inquirer from 'inquirer';
-import * as co from 'co';
-import {spawn, execSync} from 'child_process';
-var fs = require('fs');
+//import * as _ from 'lodash';
+//import * as commander from 'commander';
+//import * as inquirer from 'inquirer';
+//import * as co from 'co';
+//import { spawn } from 'child_process';
+import 'source-map-support/register';
+import * as fs from 'fs';
+import { join } from 'path';
 
 interface NodePackage {
 	name: string;
 	version: string;
 	description: string;
 	main: string;
-	scripts: Map<string, string>;
+	scripts: Object;
 	author: string;
 	license: string;
-	dependencies: {[key:string]:string};
-	devDependencies: Map<string, string>;
+	dependencies: Object;
+	devDependencies: Object;
 }
 
-co(function* () {
-	let res: NodePackage = yield readFile('./package.json');
-	console.log(res.dependencies);
-	for(let dep in res.dependencies) {
-		console.log(dep);
-	}
-});
-let lsla = spawn('ls', ['-la'], {
-	cwd: __dirname
-});
-lsla.stdout.pipe(process.stdout);
+async function main() {
+	const packageExists = await exists(join(__dirname, '../package.json'));
+	console.log(packageExists);
 
+	try {
+		let res = await readFile(join(__dirname, '../package.json'));
+		for (const key of Object.keys(res.dependencies)) {
+			console.log(key);
+		}
+	} catch (e) {
+		console.log(e);
+	}
+	
+}
 
 function readFile(fileName: string): Promise<NodePackage> {
-	return new Promise((resolve, reject)=>{
-		fs.readFile(fileName, 'utf8', (err, data)=>{
-			if(err) {
+	return new Promise((resolve, reject) => {
+		fs.readFile(fileName, 'utf8', (err, data) => {
+			if (err) {
 				reject(err);
 				return;
 			}
 			try {
 				let result: NodePackage = JSON.parse(data);
+				if (result) {
+					throw new Error('dafdsf');
+				}
 				resolve(result);
-			} catch(e) {
+			} catch (e) {
 				reject(e);
 			}
 		})
 	});
 }
 
+function exists(fileName: string): Promise<boolean> {
+	return new Promise(resolve => fs.exists(fileName, resolve));
+}
+
+main();

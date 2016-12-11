@@ -1,4 +1,3 @@
-'use strict';
 export class MyError extends Error {
   code: number;
   description: string;
